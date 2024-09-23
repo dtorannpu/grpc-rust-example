@@ -1,0 +1,12 @@
+[package]
+name = "grpc-rust-example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tonic = "0.12.2"
+prost = "0.13.3"
+tokio = { version = "1", features = ["full"] }
+
+[build-dependencies]
+tonic-build = {  version = "0.12.2", features = ["prost"] }
