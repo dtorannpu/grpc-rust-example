@@ -1,6 +1,7 @@
 use tonic::{transport::Server,Request, Response, Status};
 use crate::sample::sample_service_server::{SampleService, SampleServiceServer};
 use crate::sample::{SampleRequest, SampleResponse};
+use tracing::info;
 
 pub mod sample {
     tonic::include_proto!("sample");
@@ -24,8 +25,14 @@ impl SampleService for MySampleService {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    tracing_subscriber::fmt()
+        .json()
+        .init();
+
     let addr = "[::1]:50051".parse()?;
     let sample_service = MySampleService::default();
+
+    info!(message = "server listening at 50051");
 
     Server::builder()
         .add_service(SampleServiceServer::new(sample_service))
